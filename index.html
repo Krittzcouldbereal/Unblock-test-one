@@ -1,27 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About:Blank Launcher</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Test Launcher</title>
 </head>
-<body>
-  <div class="container">
-    <h1>About:Blank HTML Launcher</h1>
+<body style="background:#111;color:white;font-family:Arial;padding:20px;">
 
-    <textarea id="htmlInput" placeholder="Paste your HTML here..."></textarea>
+<h1>About Blank Launcher</h1>
 
-    <div class="buttons">
-      <button id="openBtn">Open in about:blank</button>
-      <button id="saveBtn">Save HTML</button>
-      <input type="file" id="fileInput" accept=".html,.htm" />
-    </div>
+<textarea id="htmlInput" style="width:100%;height:200px;">
+<h1>Hello World</h1>
+</textarea>
 
-    <h2>Saved Pages</h2>
-    <div id="savedList"></div>
-  </div>
+<br><br>
 
-  <script src="script.js"></script>
+<button onclick="openHTML()">
+Open
+</button>
+
+<script>
+function openHTML() {
+  const content = document.getElementById("htmlInput").value;
+
+  const win = window.open("", "_blank");
+
+  if (!win) {
+    alert("POPUP BLOCKED");
+    return;
+  }
+
+  win.document.write(content);
+  win.document.close();
+}
+</script>
+
 </body>
 </html>
