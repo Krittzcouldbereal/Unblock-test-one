@@ -1,25 +1,45 @@
 const htmlInput = document.getElementById("htmlInput");
+const openBtn = document.getElementById("openBtn");
+const saveBtn = document.getElementById("saveBtn");
+const savedList = document.getElementById("savedList");
+const fileInput = document.getElementById("fileInput");
 
-  if (!content) {
-    alert("Nothing to save.");
+function openHTML(content) {
+  const win = window.open();
+
+  if (!win) {
+    alert("Popups are blocked.");
     return;
   }
 
-  const name = prompt("Enter a name for this page:");
+  win.document.open();
+  win.document.write(content);
+  win.document.close();
+}
 
-  if (!name) return;
+openBtn.onclick = () => {
+  const content = htmlInput.value;
 
+  if (!content.trim()) {
+    alert("Enter HTML first.");
+    return;
+  }
+
+  openHTML(content);
+};
+
+saveBtn.onclick = () => {
   const saved = JSON.parse(localStorage.getItem("savedPages") || "[]");
 
   saved.push({
-    name,
-    content,
+    name: "Saved Page",
+    content: htmlInput.value
   });
 
   localStorage.setItem("savedPages", JSON.stringify(saved));
 
   loadSaved();
-});
+};
 
 function loadSaved() {
   const saved = JSON.parse(localStorage.getItem("savedPages") || "[]");
@@ -28,13 +48,12 @@ function loadSaved() {
 
   saved.forEach((page, index) => {
     const div = document.createElement("div");
-    div.className = "saved-item";
 
     div.innerHTML = `
-      <span>${page.name}</span>
-      <div>
-        <button onclick="launchSaved(${index})">Open</button>
-        <button onclick="deleteSaved(${index})">Delete</button>
+      <div style="margin-bottom:10px;">
+        <button onclick="launchSaved(${index})">
+          Open Saved ${index + 1}
+        </button>
       </div>
     `;
 
@@ -42,31 +61,22 @@ function loadSaved() {
   });
 }
 
-window.launchSaved = function(index) {
+window.launchSaved = (index) => {
   const saved = JSON.parse(localStorage.getItem("savedPages") || "[]");
 
-  if (!saved[index]) return;
-
-  openHTML(saved[index].content);
+  if (saved[index]) {
+    openHTML(saved[index].content);
+  }
 };
 
-window.deleteSaved = function(index) {
-  const saved = JSON.parse(localStorage.getItem("savedPages") || "[]");
-
-  saved.splice(index, 1);
-
-  localStorage.setItem("savedPages", JSON.stringify(saved));
-
-  loadSaved();
-};
-
-fileInput.addEventListener("change", async (e) => {
+fileInput.onchange = async (e) => {
   const file = e.target.files[0];
 
   if (!file) return;
 
   const text = await file.text();
+
   htmlInput.value = text;
-});
+};
 
 loadSaved();
