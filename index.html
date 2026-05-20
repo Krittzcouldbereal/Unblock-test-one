@@ -1,37 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Test Launcher</title>
+  <meta charset="utf-8">
+  <title>Your Only Move Is HUSTLE</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
 </head>
-<body style="background:#111;color:white;font-family:Arial;padding:20px;">
 
-<h1>About Blank Launcher</h1>
+<body>
 
-<textarea id="htmlInput" style="width:100%;height:200px;">
-<h1>Hello World</h1>
-</textarea>
-
-<br><br>
-
-<button onclick="openHTML()">
-Open
-</button>
-
-<script>
-function openHTML() {
-  const content = document.getElementById("htmlInput").value;
-
-  const win = window.open("", "_blank");
-
-  if (!win) {
-    alert("POPUP BLOCKED");
-    return;
-  }
-
-  win.document.write(content);
-  win.document.close();
-}
-</script>
+<iframe src="./game/index.html"></iframe>
 
 </body>
 </html>
